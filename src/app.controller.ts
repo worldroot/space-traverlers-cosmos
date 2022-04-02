@@ -10,4 +10,10 @@ export class AppController {
   root() {
     return { message: 'Hello world!' };
   }
+
+  @Get('/ship1')
+  @Render('index')
+  async getShip1(){
+    return { ship: await this.appService.getShip1()};
+  }
 }

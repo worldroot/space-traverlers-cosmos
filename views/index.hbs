@@ -505,18 +505,18 @@
                         <th
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
                         >
-                          Facebook
+                          {{ship.tourSpent}}
                         </th>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
-                          1,480
+                          {{ship.currentRessource.material}}
                         </td>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
                           <div class="flex items-center">
-                            <span class="mr-2">60%</span>
+                            <span class="mr-2">{{ multiply ship.currentRessource.material  0.2}}%</span>
                             <div class="relative w-full">
                               <div
                                 class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
