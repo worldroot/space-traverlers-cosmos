@@ -7,55 +7,79 @@ import axios from 'axios';
 
 @Controller('test')
 export class TestController {
-  constructor(private httpService: HttpService) {}
+  public endX;
+  public endY;
+  
+  public x;
+  public y;
+  
+  public tours;
+  public planets;
+  public planet;
+  
+  public ship1;
+
+  public material;
+  public oxygene;
+  public fuel;
+  public food;
+  public water;
+  public temperature;
+  public crew ;
+
+  constructor(private httpService: HttpService) {
+    this.endX=0;
+    this.endY=0;
+    this.x=0;
+    this.y=0;
+    this.tours=0;
+    this.planets = [];
+    this.ship1=null;
+    this.material=0;
+    this.oxygene=0;
+    this.fuel=0;
+    this.food=0;
+    this.water=0;
+    this.temperature=0;
+    this.crew=5;
+    this.planet=null;
+  }
   @Get('/do')
   async tryScript() {
+    // Stop engine if somehow still running
     try{
       await this.stopEngineShip1();
     }catch(e){}
+    // Start engine
     await this.startEngineShip1Noveria();
-    const carto = await this.getCartoShip1Noveria();
-    // Destination
-    let endX=0;
-    let endY=0;
-    // Current Position
-    let x=0;
-    let y=0;
-    for(let i=0;i<carto.length;i++)
-    {
-      if(carto[i].typeCellule=="End")
-      {
-        endX=carto[i].x;
-        endY=carto[i].y;
-      }
-    }
-    let ship1 = await this.getShip1();
-    x = ship1.x;
-    y = ship1.y;
-    console.log("Ship("+x+","+y+")");
-    
-    while(x<endX)
-    {
-      await this.moveShip1(1,0);
-      x+=1;
-    }
-    while(y<endY)
-    {
+    // Get Carto + EndX;EndY
+    await this.getCarto();
+    // Get Ship + Stats;
+    await this.getShip1();
 
-      await this.moveShip1(0,1);
-      y+=1;
-    }
+   // this.planet =await this.getClosestPlanet();
+    await this.gotoDestination();
 
-    console.log("Ship("+x+","+y+")");
+    console.log("Ship("+this.x+","+this.y+")");
+    console.log("Stats : ");
+    console.log("Oxygene :"+this.oxygene);
+    console.log("Fuel :"+this.fuel);
+    console.log("Water :"+this.water);
+    console.log("Food :"+this.food);
     
-   /* await this.moveShip1(2,0);
-    ship1 = await this.getShip1();
-    console.log("Ship x"+ship1.x);*/
-    
-
-   // await this.stopEngineShip1();
+    await this.stopEngineShip1();
   }
 
+  findPlanetByXAndY(x,y,planets)
+  {
+    for(let i=0;i<planets.length;i++)
+    {
+      if(planets[i].x==x&&planets[i].y==y)
+      {
+        return planets[i];
+      }
+    }
+  }
 
   async startEngineShip1Noveria()
   {
@@ -68,7 +92,6 @@ export class TestController {
         }
       }
     );
-    console.log(res.data);
     
   }
 
@@ -83,7 +106,6 @@ export class TestController {
         }
       }
     );
-    console.log(res.data);
     
   }
 
@@ -95,8 +117,9 @@ export class TestController {
     }});
     return res.data;
   }
+  
 
-  async moveShip1(x,y)
+  async moveShip1API(x,y)
   {
     const res = await axios.put(
       'http://37.187.28.218:8080/team/cosmos/ships/a9be3fc4-ce52-4318-89e5-47fbf1cd1aaf/actions', 
@@ -109,7 +132,7 @@ export class TestController {
     );
   }
 
-  async getShip1()
+  async getShip1API()
   {
     const res = await axios.get('http://37.187.28.218:8080/team/cosmos/ships/a9be3fc4-ce52-4318-89e5-47fbf1cd1aaf', {
     headers: {
@@ -118,4 +141,225 @@ export class TestController {
     return res.data;
   }
 
+  async getShip1()
+  {
+    this.ship1 = await this.getShip1API();
+    this.material = this.ship1.currentRessource.material;
+    this.oxygene = this.ship1.currentRessource.oxygene;
+    this.fuel = this.ship1.currentRessource.fuel;
+    this.food = this.ship1.currentRessource.food;
+    this.water = this.ship1.currentRessource.water;
+    this.temperature = this.ship1.currentRessource.temperature;
+    this.crew = this.ship1.currentRessource.crew;
+    this.x = this.ship1.x;
+    this.y = this.ship1.y;
+    console.log("Ship("+this.x+","+this.y+")");
+  }
+
+  async getCarto()
+  {
+    const carto = await this.getCartoShip1Noveria();
+    for(let i=0;i<carto.length;i++)
+    {
+      if(carto[i].typeCellule=="End")
+      {
+        this.endX=carto[i].x;
+        this.endY=carto[i].y;
+      }
+      if(carto[i].typeCellule=="Planet")
+      {
+        this.planets.push(carto[i]);
+      }
+    }
+  }
+
+  getClosestPlanet()
+  {
+    let min_distance = 100000; 
+    let distance=0;
+    let planet = null;
+    for(let i=0;i<this.planets.length;i++)
+    {
+      if((this.planets[i].x> this.x && this.planets[i].x<this.endX && this.planets[i].y>this.y && this.planets[i].y<this.endY) ||
+      (this.planets[i].x< this.x && this.planets[i].x>this.endX && this.planets[i].y<this.y && this.planets[i].y<this.endY) )
+      {
+      distance = Math.sqrt(Math.pow(this.planets[i].planet.x-this.x,2)+Math.pow(this.planets[i].planet.y-this.y,2));
+      
+      if (distance<min_distance)
+      {
+        min_distance = distance;
+        planet = this.planets[i];
+      }
+        
+      }
+      
+    }
+    return planet;
+  }
+
+  
+  public lowFuel()
+  {
+    if(this.fuel<75)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public lowOxygene()
+  {
+    if(this.oxygene<150)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public lowWater()
+  {
+    if(this.water<200)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public lowFood()
+  {
+    if(this.water<150)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  async gotoDestination() {    
+   while(this.x<this.endX&&this.y<this.endY)
+    {
+      await this.moveShip1API(1,1);
+      this.consumeStats();
+      this.x+=1;
+      this.y+=1;
+      if(this.lowFood()||this.lowFuel()||this.lowOxygene()||this.lowWater())
+      {
+        this.planet = this.getClosestPlanet();
+        if(this.planet)
+        {
+          await this.goToPlanet();
+        }
+        
+      }
+    }
+
+
+    while(this.x>this.endX&&this.y<this.endY)
+    {
+      await this.moveShip1API(-1,1);
+      this.consumeStats();
+      this.x+=-1;
+      this.y+=1;
+      if(this.lowFood()||this.lowFuel()||this.lowOxygene()||this.lowWater())
+      {
+        this.planet = this.getClosestPlanet();
+        if(this.planet)
+        {
+          await this.goToPlanet();
+        }
+        
+      }
+    }
+
+    while(this.x>this.endX&&this.y>this.endY)
+    {
+      await this.moveShip1API(-1,-1);
+      this.consumeStats();
+      this.x+=-1;
+      this.y+=-1;
+      if(this.lowFood()||this.lowFuel()||this.lowOxygene()||this.lowWater())
+      {
+        this.planet = this.getClosestPlanet();
+        if(this.planet)
+        {
+          await this.goToPlanet();
+        }
+        
+      }
+    }
+
+    while(this.x<this.endX&&this.y>this.endY)
+    {
+      await this.moveShip1API(1,-1);
+      this.x+=1;
+      this.y+=-1;
+      if(this.lowFood()||this.lowFuel()||this.lowOxygene()||this.lowWater())
+      {
+        this.planet = this.getClosestPlanet();
+        if(this.planet)
+        {
+          await this.goToPlanet();
+        }
+        
+      }
+    }
+
+
+
+
+  }
+
+
+  public async goToPlanet()  {
+    while(this.x<this.planet.x&&this.y<this.planet.y)
+    {
+      await this.moveShip1API(1,1);
+      this.consumeStats();
+      this.x+=1;
+      this.y+=1;
+    }
+
+    while(this.x>this.planet.x&&this.y<this.planet.y)
+    {
+      await this.moveShip1API(-1,1);
+      this.consumeStats();
+      this.x+=-1;
+      this.y+=1;
+    }
+
+    while(this.x>this.planet.x&&this.y>this.planet.y)
+    {
+      await this.moveShip1API(-1,-1);
+      this.consumeStats();
+      this.x+=-1;
+      this.y+=-1;
+    }
+
+    while(this.x<this.planet.x&&this.y>this.planet.y)
+    {
+      await this.moveShip1API(1,-1);
+      this.consumeStats();
+      this.x+=1;
+      this.y+=-1;
+    }
+
+    for(let i=0;i<4;i++) {
+      this.oxygene+=this.planet.planet.effectsPerTour.oxygen;
+      this.fuel+=this.planet.planet.effectsPerTour.fuel;
+      this.food+=this.planet.planet.effectsPerTour.food;
+      this.water+=this.planet.planet.effectsPerTour.water;
+    }
+
+  }
+
+  public consumeStats()
+  {
+    this.oxygene-=10;
+    this.fuel-=2;
+    this.food = this.food - (2*this.crew);
+    this.water = this.water - (2*this.crew);
+  }
+
 }
+
+
+
