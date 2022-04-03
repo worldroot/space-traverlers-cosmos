@@ -46,10 +46,33 @@ export class AppController {
     let ships_p2 = await this.appService.getShipsByPlanet(2);
     let ships_p3 = await this.appService.getShipsByPlanet(3);
 
+    //let presence_ship_1 = await this.appService.check_presence_shipByPlanet(1);
+    //console.log(presence_ship_1)
+    let presence_ship1;
+    let presence_ship2;
+    let presence_ship3;
+    if (ship1.hasStarted){
+      presence_ship1 = await this.appService.loop_shipByPlanetV2("cosmos_01");
+    }else{
+      presence_ship1 = "Not Found"
+    }
+    if (ship_2.hasStarted){
+      presence_ship1 = await this.appService.loop_shipByPlanetV2("cosmos_02");
+    }else{
+      presence_ship2 = "Not Found"
+    }
+    if (ship_3.hasStarted){
+      presence_ship3 = await this.appService.loop_shipByPlanetV2("cosmos_03");
+    }else{
+      presence_ship3 = "Not Found"
+    }
+
+  //  console.log("test:"+test);
+
     return { ship1: ship1 , oxygene: oxygene, fuel: fuel, food: food, water: water, temperature: temperature , crew: crew, ships_p1: ships_p1, ships_p2: ships_p2, ships_p3: ships_p3,
       ship_2: ship_2, oxygene_2: oxygene_2, fuel_2: fuel_2, food_2: food_2, water_2: water_2, temperature_2: temperature_2, crew_2: crew_2,
-      ship_3: ship_3, oxygene_3: oxygene_3, fuel_3: fuel_3, food_3: food_3, water_3: water_3, temperature_3: temperature_3, crew_3: crew_3
-    
+      ship_3: ship_3, oxygene_3: oxygene_3, fuel_3: fuel_3, food_3: food_3, water_3: water_3, temperature_3: temperature_3, crew_3: crew_3,
+      presence_ship1: presence_ship1
     };
   }
 }

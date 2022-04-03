@@ -23,7 +23,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta http-equiv="refresh" content="50"/>
+    <meta http-equiv="refresh" content="150"/>
     <link rel="shortcut icon" href="../assets/img/favicon.ico" />
     <link
       rel="apple-touch-icon"
@@ -139,15 +139,6 @@
                 </a>
               </li>
 
-              <li class="items-center">
-                <a
-                  href="./tables.html"
-                  class="text-xs uppercase py-3 font-bold block text-blueGray-700 hover:text-blueGray-500"
-                >
-                  <i class="fas fa-table mr-2 text-sm text-blueGray-300"></i>
-                  Tables
-                </a>
-              </li>
 
 
             </ul>
@@ -434,6 +425,7 @@
                         <span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"><img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" src=" http://37.187.28.218:8091/assets/ships/ship1.svg"></span>
                         Spaceship 1 Status
                           <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{#if ship1.hasStarted }}Active {{else}} Not Active{{/if}}</span>
+                          <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{presence_ship1}}</span>
                       </h3>
                       <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_X : {{ship1.x}}</span>
                       <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_Y : {{ship1.y}}</span>
@@ -609,6 +601,7 @@
                                   <div class="p-6 space-y-6">
                                     <div class="block w-full overflow-x-auto">
                                       <!-- Projects table -->
+                                      {{#if ship1.hasStarted}}
                                       <table
                                         class="items-center w-full bg-transparent border-collapse"
                                       >
@@ -662,6 +655,17 @@
                                           </tr>
                                         </tbody>
                                       </table>
+                                      {{else}}
+                                        <div class="p-6 pt-0 text-center">
+                                            <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure that you alreadyt launched this SpaceShip?</h3>
+                                            <button data-modal-toggle="extralarge-modal-ship1" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                Okay , let me check
+                                            </button>
+                                            <button data-modal-toggle="extralarge-modal-ship1" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                                        </div>
+
+                                      {{/if}}
                                     </div>
                                   </div>
                                   <!-- Modal footer -->
