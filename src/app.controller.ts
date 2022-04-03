@@ -25,21 +25,21 @@ export class AppController {
 
     // SHIP 2
     let ship_2 = await this.appService.getShipByNumber(2);
-    let oxygene_2 = ship1.currentRessource.oxygene * 0.2;
-    let fuel_2 = ship1.currentRessource.fuel *  0.66;
-    let food_2 = ship1.currentRessource.food * 0.2;
-    let water_2 = ship1.currentRessource.water * 0.2;
-    let temperature_2 =ship1.currentRessource.temperature;
-    let crew_2 = ship1.currentRessource.crew;
+    let oxygene_2 = ship_2.currentRessource.oxygene * 0.2;
+    let fuel_2 = ship_2.currentRessource.fuel *  0.66;
+    let food_2 = ship_2.currentRessource.food * 0.2;
+    let water_2 = ship_2.currentRessource.water * 0.2;
+    let temperature_2 =ship_2.currentRessource.temperature;
+    let crew_2 = ship_2.currentRessource.crew;
 
     // SHIP 3
     let ship_3 = await this.appService.getShipByNumber(3);
-    let oxygene_3 = ship1.currentRessource.oxygene * 0.2;
-    let fuel_3 = ship1.currentRessource.fuel *  0.66;
-    let food_3 = ship1.currentRessource.food * 0.2;
-    let water_3 = ship1.currentRessource.water * 0.2;
-    let temperature_3 =ship1.currentRessource.temperature;
-    let crew_3 = ship1.currentRessource.crew;
+    let oxygene_3 = ship_3.currentRessource.oxygene * 0.2;
+    let fuel_3 = ship_3.currentRessource.fuel *  0.66;
+    let food_3 = ship_3.currentRessource.food * 0.2;
+    let water_3 = ship_3.currentRessource.water * 0.2;
+    let temperature_3 =ship_3.currentRessource.temperature;
+    let crew_3 = ship_3.currentRessource.crew;
 
 
     let ships_p1 = await this.appService.getShipsByPlanet(1);
