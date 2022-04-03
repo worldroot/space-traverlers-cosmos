@@ -26,7 +26,9 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
+    "handlebars-helpers": "^0.10.0",
     "hbs": "^4.2.0",
+    "nestjs-provider-helper": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
