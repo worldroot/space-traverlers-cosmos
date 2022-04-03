@@ -23,7 +23,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta http-equiv="refresh" content="25"/>
+    <meta http-equiv="refresh" content="50"/>
     <link rel="shortcut icon" href="../assets/img/favicon.ico" />
     <link
       rel="apple-touch-icon"
@@ -39,6 +39,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.1/dist/flowbite.min.css" />
+
+
     <title>Dashboard | Notus JS by Creative Tim</title>
   </head>
   <body class="text-blueGray-700 antialiased">
@@ -415,6 +418,9 @@
                 </div>
               </div>
             </div>
+
+
+            <!-- Ship 1-->
             <div class="w-full xl:w-12/12 px-4">
               <div
                 class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
@@ -424,21 +430,25 @@
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1"
                     >
-                      <h3 class="font-semibold text-base text-blueGray-700">
+                      <h3 class="font-semibold text-base text-blueGray-700 ">
                         <span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"><img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" src=" http://37.187.28.218:8091/assets/ships/ship1.svg"></span>
                         Spaceship 1 Status
                           <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{#if ship1.hasStarted }}Active {{else}} Not Active{{/if}}</span>
                       </h3>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_X : {{ship1.x}}</span>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_Y : {{ship1.y}}</span>
+
                     </div>
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
                     >
                       <button
                         class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
+                        type="button" data-modal-toggle="extralarge-modal-ship1"
                       >
                         Cartographie
                       </button>
+
                     </div>
                   </div>
                 </div>
@@ -580,10 +590,96 @@
                       </tr>
                     </tbody>
                   </table>
+
+                  <!-- Extra Large Modal -->
+                      <div id="extralarge-modal-ship1" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full " >
+                          <div class="relative p-4 w-full max-w-7xl h-full md:h-auto">
+                              <!-- Modal content -->
+                              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                  <!-- Modal header -->
+                                  <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                                      <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                          Cartographie SpaceShip
+                                      </h3>
+                                      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="extralarge-modal-ship1">
+                                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                                      </button>
+                                  </div>
+                                  <!-- Modal body -->
+                                  <div class="p-6 space-y-6">
+                                    <div class="block w-full overflow-x-auto">
+                                      <!-- Projects table -->
+                                      <table
+                                        class="items-center w-full bg-transparent border-collapse"
+                                      >
+                                        <thead>
+                                          <tr>
+                                            <th
+                                              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                            >
+                                              Planet name
+                                            </th>
+                                            <th
+                                              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                            >
+                                              Position X
+                                            </th>
+                                            <th
+                                              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                            >
+                                              Position Y
+                                            </th>
+                                            <th
+                                              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                            >
+                                              Description
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th
+                                              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+                                            >
+                                              /argon/
+                                            </th>
+                                            <td
+                                              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                                            >
+                                              4,569
+                                            </td>
+                                            <td
+                                              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                                            >
+                                              340
+                                            </td>
+                                            <td
+                                              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                                            >
+                                              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+                                              46,53%
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  <!-- Modal footer -->
+                                  <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                                      <button data-modal-toggle="extralarge-modal-ship1" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                                      <button data-modal-toggle="extralarge-modal-ship1" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  <!-- -->
                 </div>
               </div>
             </div>
-            <div class="w-full xl:w-8/12 px-4">
+
+
+              <!-- Ship 2-->
+            <div class="w-full xl:w-12/12 px-4">
               <div
                 class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
               >
@@ -592,9 +688,14 @@
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1"
                     >
-                      <h3 class="font-semibold text-base text-blueGray-700">
+                      <h3 class="font-semibold text-base text-blueGray-700 ">
+                        <span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"><img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" src="http://37.187.28.218:8091/assets/ships/ship2.svg"></span>
                         Spaceship 2 Status
+                          <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{#if ship_2.hasStarted }}Active {{else}} Not Active{{/if}}</span>
                       </h3>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_X : {{ship_2.x}}</span>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_Y : {{ship_2.y}}</span>
+
                     </div>
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
@@ -635,6 +736,21 @@
                         >
                         Fuel
                         </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Food
+                        </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Water
+                        </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Crew
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -642,27 +758,89 @@
                         <th
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
                         >
-                          Facebook
+                          {{ship_2.tourSpent}}
                         </th>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
-                          1,480
+                          {{ship_2.currentRessource.material}}
                         </td>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
                           <div class="flex items-center">
-                            <span class="mr-2">60%</span>
+                            <span class="mr-2">{{ oxygene_2 }}%</span>
                             <div class="relative w-full">
                               <div
                                 class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                               >
                                 <div
-                                  style="width: 60%"
+                                  style="width: {{ oxygene_2 }}%"
                                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                                 ></div>
                               </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ fuel_2 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ fuel_2 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ food_2 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ food_2 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ water_2 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ water_2 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ crew_2 }}</span>
                             </div>
                           </div>
                         </td>
@@ -672,7 +850,9 @@
                 </div>
               </div>
             </div>
-            <div class="w-full xl:w-8/12 px-4">
+            
+              <!-- Ship 3-->
+            <div class="w-full xl:w-12/12 px-4">
               <div
                 class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
               >
@@ -681,9 +861,14 @@
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1"
                     >
-                      <h3 class="font-semibold text-base text-blueGray-700">
+                      <h3 class="font-semibold text-base text-blueGray-700 ">
+                        <span class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"><img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" src="http://37.187.28.218:8091/assets/ships/ship3.svg"></span>
                         Spaceship 3 Status
+                          <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{#if ship_3.hasStarted }}Active {{else}} Not Active{{/if}}</span>
                       </h3>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_X : {{ship_3.x}}</span>
+                      <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-indigo-600 rounded-full">Position_Y : {{ship_3.y}}</span>
+
                     </div>
                     <div
                       class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
@@ -724,6 +909,21 @@
                         >
                         Fuel
                         </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Food
+                        </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Water
+                        </th>
+                        <th
+                          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"
+                        >
+                        Crew
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -731,27 +931,89 @@
                         <th
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
                         >
-                          Facebook
+                          {{ship_3.tourSpent}}
                         </th>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
-                          1,480
+                          {{ship_3.currentRessource.material}}
                         </td>
                         <td
                           class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                         >
                           <div class="flex items-center">
-                            <span class="mr-2">60%</span>
+                            <span class="mr-2">{{ oxygene_3 }}%</span>
                             <div class="relative w-full">
                               <div
                                 class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                               >
                                 <div
-                                  style="width: 60%"
+                                  style="width: {{ oxygene_3 }}%"
                                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                                 ></div>
                               </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ fuel_3 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ fuel_3 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ food_3 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ food_3 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ water_3 }}%</span>
+                            <div class="relative w-full">
+                              <div
+                                class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                              >
+                                <div
+                                  style="width: {{ water_3 }}%"
+                                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td
+                          class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                          <div class="flex items-center">
+                            <span class="mr-2">{{ crew_3 }}</span>
                             </div>
                           </div>
                         </td>
@@ -766,6 +1028,7 @@
         </div>
       </div>
     </div>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
       charset="utf-8"
@@ -773,7 +1036,6 @@
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script type="text/javascript">
 
-    var helpers = require('handlebars-helpers')();
 //=> returns object with all (130+) helpers
 
       /* Make dynamic date appear */
@@ -1008,5 +1270,7 @@
         window.myBar = new Chart(ctx, config);
       })();
     </script>
+    <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+
   </body>
 </html>

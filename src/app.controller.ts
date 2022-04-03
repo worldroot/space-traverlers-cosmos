@@ -47,7 +47,8 @@ export class AppController {
     let ships_p3 = await this.appService.getShipsByPlanet(3);
 
     return { ship1: ship1 , oxygene: oxygene, fuel: fuel, food: food, water: water, temperature: temperature , crew: crew, ships_p1: ships_p1, ships_p2: ships_p2, ships_p3: ships_p3,
-      ship_2: ship_2, oxygene_2: oxygene_2, fuel_2: fuel_2, food_2: food_2, water_2: water_2, temperature_2: temperature_2, crew_2: crew_2
+      ship_2: ship_2, oxygene_2: oxygene_2, fuel_2: fuel_2, food_2: food_2, water_2: water_2, temperature_2: temperature_2, crew_2: crew_2,
+      ship_3: ship_3, oxygene_3: oxygene_3, fuel_3: fuel_3, food_3: food_3, water_3: water_3, temperature_3: temperature_3, crew_3: crew_3
     
     };
   }
