@@ -1238,6 +1238,21 @@
       })();
     </script>
     <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      $.ajax({
+                type: "POST",
+                url: "/test/start",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                  console.log("success",data)
+                },
+                error: function (errMsg) {
+                  console.log("error", errMsg)
+                }
+              });
+      </script>
 
   </body>
 </html>
