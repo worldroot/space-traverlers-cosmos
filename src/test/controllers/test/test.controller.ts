@@ -53,6 +53,12 @@ export class TestController {
   "oxygene":this.oxygene,"fuel":this.fuel,"crew":this.crew,"planet":this.planet};
   }
 
+  @Get("/carto")
+  getCartoFront()
+  {
+    return this.planets;
+  }
+
 
   @Get('/start')
   async tryScript() {
@@ -78,6 +84,8 @@ export class TestController {
     console.log("Food :"+this.food);
     
     await this.stopEngineShip1();
+    return {"ship":this.ship1,"x":this.x,"y":this.y,"food":this.food,"water":this.water,
+  "oxygene":this.oxygene,"fuel":this.fuel,"crew":this.crew,"planet":this.planet};
   }
 
   findPlanetByXAndY(x,y,planets)
