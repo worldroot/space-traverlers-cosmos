@@ -252,9 +252,11 @@ export class TestController {
     return false;
   }
 
-  async gotoDestination() {    
+  async gotoDestination() { 
+       
    while(this.x<this.endX&&this.y<this.endY)
     {
+      console.log("Ship("+this.x+","+this.y+")");
       await this.moveShip1API(1,1);
       this.consumeStats();
       this.x+=1;
