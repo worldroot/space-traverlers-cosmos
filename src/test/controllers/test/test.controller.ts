@@ -44,7 +44,17 @@ export class TestController {
     this.crew=5;
     this.planet=null;
   }
-  @Get('/do')
+
+
+  @Get("/getShip1")
+  getInfos()
+  {
+    return {"ship":this.ship1,"x":this.x,"y":this.y,"food":this.food,"water":this.water,
+  "oxygene":this.oxygene,"fuel":this.fuel,"crew":this.crew,"planet":this.planet};
+  }
+
+
+  @Get('/start')
   async tryScript() {
     // Stop engine if somehow still running
     try{
