@@ -3,6 +3,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Controller, Get } from '@nestjs/common';
 import axios from 'axios';
+import { delay } from 'rxjs';
 
 
 @Controller('test')
@@ -73,17 +74,31 @@ export class TestController {
     // Get Ship + Stats;
     await this.getShip1();
 
-   // this.planet =await this.getClosestPlanet();
-    await this.gotoDestination();
-
+    while(1)
+    {
+      this.planet = this.getClosestPlanet();
+      if(this.planet!=null)
+      {
+        console.log("Going to planet");
+        await this.goToPlanet();
+      }
+      else
+      {
+        console.log("Going to destination");
+        await this.goToDestinationWithoutPlanet();
+        break;
+      }
+    }
+    
+/*
     console.log("Ship("+this.x+","+this.y+")");
     console.log("Stats : ");
     console.log("Oxygene :"+this.oxygene);
     console.log("Fuel :"+this.fuel);
     console.log("Water :"+this.water);
-    console.log("Food :"+this.food);
+    console.log("Food :"+this.food);*/
     
-    await this.stopEngineShip1();
+   // await this.stopEngineShip1();
     return {"ship":this.ship1,"x":this.x,"y":this.y,"food":this.food,"water":this.water,
   "oxygene":this.oxygene,"fuel":this.fuel,"crew":this.crew,"planet":this.planet};
   }
@@ -142,6 +157,18 @@ export class TestController {
     const res = await axios.put(
       'http://37.187.28.218:8080/team/cosmos/ships/a9be3fc4-ce52-4318-89e5-47fbf1cd1aaf/actions', 
       { "actions": ["move:"+x+","+y] }, 
+      {
+        headers: {
+          'access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3Ntb3MiLCJpc3MiOiJTcGFjZU9kaXNzZXlBdXRoIn0.2TOfoLg_FFIUqn6iuWkpzDJTQqy6kNQb8Rsak8cSLwg'
+        }
+      }
+    );
+  }
+  async landShip1API()
+  {
+    const res = await axios.put(
+      'http://37.187.28.218:8080/team/cosmos/ships/a9be3fc4-ce52-4318-89e5-47fbf1cd1aaf/actions', 
+      { "actions": ["land"] }, 
       {
         headers: {
           'access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3Ntb3MiLCJpc3MiOiJTcGFjZU9kaXNzZXlBdXRoIn0.2TOfoLg_FFIUqn6iuWkpzDJTQqy6kNQb8Rsak8cSLwg'
@@ -312,15 +339,11 @@ export class TestController {
       await this.moveShip1API(1,-1);
       this.x+=1;
       this.y+=-1;
-      if(this.lowFood()||this.lowFuel()||this.lowOxygene()||this.lowWater())
-      {
         this.planet = this.getClosestPlanet();
         if(this.planet)
         {
           await this.goToPlanet();
         }
-        
-      }
     }
 
 
@@ -328,17 +351,20 @@ export class TestController {
 
   }
 
-
-  public async goToPlanet()  {
-    while(this.x<this.planet.x&&this.y<this.planet.y)
+  public async goToDestinationWithoutPlanet()
+  { 
+    
+    while(this.x<this.endX&&this.y<this.endY)
     {
+      console.log("Ship("+this.x+","+this.y+")");
       await this.moveShip1API(1,1);
       this.consumeStats();
       this.x+=1;
       this.y+=1;
     }
 
-    while(this.x>this.planet.x&&this.y<this.planet.y)
+
+    while(this.x>this.endX&&this.y<this.endY)
     {
       await this.moveShip1API(-1,1);
       this.consumeStats();
@@ -346,7 +372,7 @@ export class TestController {
       this.y+=1;
     }
 
-    while(this.x>this.planet.x&&this.y>this.planet.y)
+    while(this.x>this.endX&&this.y>this.endY)
     {
       await this.moveShip1API(-1,-1);
       this.consumeStats();
@@ -354,20 +380,188 @@ export class TestController {
       this.y+=-1;
     }
 
-    while(this.x<this.planet.x&&this.y>this.planet.y)
+    while(this.x<this.endX&&this.y>this.endY)
     {
       await this.moveShip1API(1,-1);
-      this.consumeStats();
       this.x+=1;
       this.y+=-1;
     }
 
-    for(let i=0;i<4;i++) {
-      this.oxygene+=this.planet.planet.effectsPerTour.oxygen;
-      this.fuel+=this.planet.planet.effectsPerTour.fuel;
-      this.food+=this.planet.planet.effectsPerTour.food;
-      this.water+=this.planet.planet.effectsPerTour.water;
+    while(this.x<this.endX)
+    {
+      if(this.endX-this.x>=2)
+      {
+        await this.moveShip1API(2,0);
+        this.x+=2;
+      }
+      else
+      {
+        await this.moveShip1API(1,0);
+        this.x+=1;
+      }
     }
+
+    while(this.x>this.endX)
+    {
+      if(this.x-this.endX>=2)
+      {
+        await this.moveShip1API(-2,0);
+        this.x+=-2;
+      }
+      else
+      {
+        await this.moveShip1API(-1,0);
+        this.x+=-1;
+      }
+    }
+
+    while(this.y<this.endY)
+    {
+      if(this.endY-this.y)
+      {
+        await this.moveShip1API(0,2);
+        this.y+=2;
+      }
+      else
+      {
+        await this.moveShip1API(0,1);
+        this.y+=1;
+      }
+    }
+
+    while(this.y>this.endY)
+    {
+      if(this.y-this.endY>=2)
+      {
+        await this.moveShip1API(0,-2);
+        this.y+=-2;
+      }
+      else
+      {
+        await this.moveShip1API(0,-1);
+        this.y+=-1;
+      }
+    }
+
+  }
+
+
+  async goToPlanet()  {
+    console.log("Ship("+this.x+","+this.y+")");
+    console.log("Planet("+this.planet.x+","+this.planet.y+")");
+    while(this.x<this.planet.x&&this.y<this.planet.y)
+    {
+      await this.moveShip1API(1,1);
+      this.x+=1;
+      this.y+=1;
+    }
+
+    while(this.x>this.planet.x&&this.y<this.planet.y)
+    {
+      await this.moveShip1API(-1,1);
+      this.x+=-1;
+      this.y+=1;
+    }
+
+    while(this.x>this.planet.x&&this.y>this.planet.y)
+    {
+      await this.moveShip1API(-1,-1);
+      this.x+=-1;
+      this.y+=-1;
+    }
+
+    while(this.x<this.planet.x&&this.y>this.planet.y)
+    {
+      await this.moveShip1API(1,-1);
+      this.x+=1;
+      this.y+=-1;
+    }
+
+    while(this.x<this.planet.x)
+    {
+      if(this.planet.x-this.x>=2)
+      {
+        await this.moveShip1API(2,0);
+        this.x+=2;
+      }
+      else
+      {
+        await this.moveShip1API(1,0);
+        this.x+=1;
+      }
+      
+    }
+
+    while(this.x>this.planet.x)
+    {
+      if(this.x-this.planet.x>=2)
+      {
+        await this.moveShip1API(-2,0);
+      this.x+=-2;
+      }
+      else
+      {
+        await this.moveShip1API(-1,0);
+      this.x+=-1;
+      }
+    }
+
+    while(this.y<this.planet.y)
+    {
+      if(this.planet.y-this.y>=2)
+      {
+        await this.moveShip1API(0,2);
+        this.y+=2;
+      }
+      else
+      {
+        await this.moveShip1API(0,1);
+        this.y+=1;
+      }
+      
+    }
+
+    while(this.y>this.planet.y)
+    {
+      if(this.y-this.planet.y>=2)
+      {
+        await this.moveShip1API(0,-1);
+        this.y+=-1;
+      }
+    }
+
+
+    let temperature = this.planet.planet.effectsPerTour.temperature;
+    console.log("TEMPERATUUUUUUUUUUUUUUUUUUUUUUUURE :"+temperature);
+    
+    //if(this.planet.planet.temperature<)
+
+    if(temperature>4)
+    {
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+    }
+    else
+    {
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+      await this.landShip1API();
+
+    }
+    
+    //NEW
+   /* await this.landShip1API();
+    await this.landShip1API();*/
+    console.log("Landed !");
+
+    
 
   }
 
