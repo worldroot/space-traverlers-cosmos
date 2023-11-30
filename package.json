@@ -30,7 +30,7 @@
     "hbs": "^4.2.0",
     "nestjs-provider-helper": "^1.0.0",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.0.0",
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
