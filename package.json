@@ -25,7 +25,7 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
-    "@nestjs/serve-static": "^2.2.2",
+    "@nestjs/serve-static": "^5.0.0",
     "handlebars-helpers": "^0.10.0",
     "hbs": "^4.2.0",
     "nestjs-provider-helper": "^1.0.0",
